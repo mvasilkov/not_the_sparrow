@@ -6,6 +6,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+.cache
 .Python
 env/
 build/
@@ -33,16 +34,6 @@ var/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*,cover
-
 # Translations
 *.mo
 *.pot
@@ -58,3 +49,6 @@ target/
 
 # Virtual environments
 /virtual/
+
+# Unit testing
+.hypothesis/

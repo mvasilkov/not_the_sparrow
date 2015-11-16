@@ -1,7 +1,7 @@
 from hypothesis import given
 from hypothesis.strategies import text
 
-from not_the_sparrow import inline_commands
+from not_the_sparrow import inline_commands, break_lines
 
 
 def check_inline_nop():
@@ -10,9 +10,16 @@ def check_inline_nop():
             'nobody here but us chickens')
 
 
+def check_break_nop():
+    assert break_lines('') == ''
+    assert (break_lines('nobody here but us chickens') ==
+            'nobody here but us chickens')
+
+
 @given(string=text())
-def check_inline_hypothesis(string):
+def check_nonchalant_hypothesis(string):
     assert isinstance(inline_commands(string), str)
+    assert isinstance(break_lines(string), str)
 
 
 def check_inline_basic():

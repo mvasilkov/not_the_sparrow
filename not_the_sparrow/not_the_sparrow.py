@@ -1,6 +1,8 @@
 from io import StringIO
 from re import compile
 
+from .util import escape_html
+
 OPENING = {}
 CLOSING = {}
 
@@ -113,3 +115,41 @@ def inline_commands(a):
         i += 1
 
     return str(buf)
+
+
+class Line:
+    _string = None
+
+    def __init__(self, string):
+        if string and not string.isspace():
+            self._string = string
+
+    def __bool__(self):
+        return self._string is not None
+
+    def __str__(self):
+        return '' if self._string is None else self._string
+
+
+class Prose(Clip):
+    def push(self, a):
+        if not self.peek and not a:
+            return
+        super().push(a)
+
+    def __bool__(self):
+        return bool(self._clip)
+
+    def __str__(self):
+        return '<br>\n'.join(str(a) for a in self._clip)
+
+
+def break_lines(a):
+    prose = Prose()
+    for string in escape_html(a).splitlines():
+        prose.push(Line(string))
+
+    if prose and not prose.peek:
+        prose.pop()
+
+    return str(prose)

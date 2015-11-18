@@ -21,6 +21,8 @@ RE_BEGIN = compile(r'\\(%s)({{{|{)' % '|'.join(_commands.keys()))
 
 del _commands
 
+RE_INDENT = compile(' {4}| {0,3}\t')
+
 
 class Command:
     _closed = False
@@ -119,15 +121,23 @@ def inline_commands(a):
 
 class Line:
     _string = None
+    _monospaced = False
 
     def __init__(self, string):
         if string and not string.isspace():
-            self._string = string
+            indent = RE_INDENT.match(string)
+            if indent is None:
+                self._string = string
+            else:
+                self._string = string[indent.span()[1]:]
+                self._monospaced = True
 
     def __bool__(self):
         return self._string is not None
 
     def __str__(self):
+        if self._monospaced:
+            return '<code>%s</code>' % self._string
         return '' if self._string is None else self._string
 
 

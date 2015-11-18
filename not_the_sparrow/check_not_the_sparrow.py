@@ -1,4 +1,3 @@
-from re import fullmatch
 from string import whitespace
 
 from hypothesis import given
@@ -57,5 +56,16 @@ def check_inline_begin_end():
 @given(string=text(alphabet=whitespace))
 def check_break_ignore(string):
     assert break_lines(string) == ''
-    assert fullmatch('[ \t]* chickens', break_lines('%s chickens' % string))
-    assert fullmatch('chickens [ \t]*', break_lines('chickens %s' % string))
+    assert (break_lines('%s \n' 'chickens' % string) ==
+            break_lines('chickens' '\n %s' % string) ==
+            'chickens')
+
+
+def check_break_indent():
+    for x in range(4):
+        a = x * ' ' + 'chickens'
+        assert break_lines(a) == a
+
+    for x in range(4, 10):
+        a = x * ' ' + 'chickens'
+        assert break_lines(a) == '<code>%s</code>' % a[4:]

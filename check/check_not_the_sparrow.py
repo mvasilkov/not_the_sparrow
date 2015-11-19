@@ -53,11 +53,16 @@ def check_inline_begin_end():
             '<b> chickens </b>')
 
 
+def njoin(*args):
+    return '\n'.join(args)
+
+
 @given(string=text(alphabet=whitespace))
 def check_break_ignore(string):
     assert break_lines(string) == ''
-    assert (break_lines('%s \n' 'chickens' % string) ==
-            break_lines('chickens' '\n %s' % string) ==
+    assert (break_lines(njoin(string, 'chickens')) ==
+            break_lines(njoin('chickens', string)) ==
+            break_lines(njoin(string, 'chickens', string)) ==
             'chickens')
 
 

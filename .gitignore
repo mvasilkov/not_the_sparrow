@@ -52,3 +52,4 @@ target/
 
 # Unit testing
 .hypothesis/
+.coverage

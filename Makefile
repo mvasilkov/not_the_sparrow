@@ -7,4 +7,7 @@ virtual:
 	touch virtual/Scripts/activate_this.py
 
 test:
-	py.test --cov not_the_sparrow check
+	flake8 not_the_sparrow test
+	py.test --cov not_the_sparrow test
+
+.PHONY: test

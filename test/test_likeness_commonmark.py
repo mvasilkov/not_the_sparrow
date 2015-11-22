@@ -22,7 +22,7 @@ def commonmark(string):
 
 
 @given(string=text(alphabet=(' ', '\t')))
-def check_break_indent_commonmark(string):
+def test_break_indent_commonmark(string):
     string += 'chickens'
     a = break_lines(string)
     b = commonmark(string)

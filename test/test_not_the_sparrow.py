@@ -6,25 +6,25 @@ from hypothesis.strategies import text
 from not_the_sparrow import inline_commands, break_lines
 
 
-def check_inline_nop():
+def test_inline_nop():
     assert inline_commands('') == ''
     assert (inline_commands('nobody here but us chickens') ==
             'nobody here but us chickens')
 
 
-def check_break_nop():
+def test_break_nop():
     assert break_lines('') == ''
     assert (break_lines('nobody here but us chickens') ==
             'nobody here but us chickens')
 
 
 @given(string=text())
-def check_nonchalant_hypothesis(string):
+def test_nonchalant_hypothesis(string):
     assert isinstance(inline_commands(string), str)
     assert isinstance(break_lines(string), str)
 
 
-def check_inline_basic():
+def test_inline_basic():
     for b in (('{', '}'), ('{{{', '}}}')):
         for a in ('b', 'ж'):
             assert (inline_commands(
@@ -37,7 +37,7 @@ def check_inline_basic():
                 'nobody <i> chickens </i> nobody')
 
 
-def check_inline_begin_end():
+def test_inline_begin_end():
     for b in (('{', '}'), ('{{{', '}}}')):
         assert (inline_commands(
             '\\b%s chickens %s nobody' % b) ==
@@ -58,7 +58,7 @@ def njoin(*args):
 
 
 @given(string=text(alphabet=whitespace))
-def check_break_ignore(string):
+def test_break_ignore(string):
     assert break_lines(string) == ''
     assert (break_lines(njoin(string, 'chickens')) ==
             break_lines(njoin('chickens', string)) ==
@@ -66,7 +66,7 @@ def check_break_ignore(string):
             'chickens')
 
 
-def check_break_indent():
+def test_break_indent():
     for x in range(4):
         a = x * ' ' + 'chickens'
         assert break_lines(a) == a

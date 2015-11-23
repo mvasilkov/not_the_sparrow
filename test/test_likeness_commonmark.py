@@ -1,7 +1,7 @@
 from ctypes import CDLL, c_char_p, c_long
 from re import compile, MULTILINE
 
-from hypothesis import given
+from hypothesis import given, example
 from hypothesis.strategies import text
 
 from not_the_sparrow import break_lines
@@ -14,6 +14,8 @@ cmark_markdown_to_html.restype = c_char_p
 
 RE_COMMONMARK_CODE = compile('<pre><code>(.*)', MULTILINE)
 
+spaces = (' ', '\t')
+
 
 def commonmark(string):
     bytestring = string.encode('utf8')
@@ -21,11 +23,13 @@ def commonmark(string):
     return cmark_markdown_to_html(bytestring, length, 0).decode('utf8')
 
 
-@given(string=text(alphabet=(' ', '\t')))
-def test_break_indent_commonmark(string):
-    string += 'chickens'
+def assert_likeness(string):
     a = break_lines(string)
     b = commonmark(string)
+
+    if not b:
+        assert not string or string.isspace()
+        return
 
     if b.startswith('<p>'):
         assert not a.startswith('<code>')
@@ -33,3 +37,16 @@ def test_break_indent_commonmark(string):
         wrapped = RE_COMMONMARK_CODE.match(b)
         assert wrapped
         assert a == '<code>%s</code>' % wrapped.group(1)
+
+
+@given(before=text(alphabet=spaces), after=text(alphabet=spaces))
+@example(before='\t\t', after='')
+def test_indent_commonmark(before, after):
+    string = 'chickens'.join([before, after])
+    assert_likeness(string)
+
+
+@given(string=text(alphabet=('x', *spaces)))
+@example(string='x'.join(4 * (4 * ' ',)))
+def test_spaces_commonmark(string):
+    assert_likeness(string)

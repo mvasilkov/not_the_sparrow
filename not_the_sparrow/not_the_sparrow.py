@@ -127,7 +127,7 @@ class Line:
         if string and not string.isspace():
             indent = RE_INDENT.match(string)
             if indent is None:
-                self._string = string
+                self._string = string.strip()
             else:
                 self._string = string[indent.span()[1]:]
                 self._monospaced = True

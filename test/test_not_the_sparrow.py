@@ -69,7 +69,7 @@ def test_break_ignore(string):
 def test_break_indent():
     for x in range(4):
         a = x * ' ' + 'chickens'
-        assert break_lines(a) == a
+        assert break_lines(a) == a.lstrip()
 
     for x in range(4, 10):
         a = x * ' ' + 'chickens'

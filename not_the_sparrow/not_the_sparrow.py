@@ -1,5 +1,5 @@
 from io import StringIO
-from re import compile
+from re import compile as re_compile
 
 from .util import escape_html
 
@@ -17,14 +17,14 @@ for a, b in _commands.items():
     OPENING[a] = '<%s>' % b
     CLOSING[a] = '</%s>' % b
 
-RE_BEGIN = compile(r'\\(%s)({{{|{)' % '|'.join(_commands.keys()))
+RE_BEGIN = re_compile(r'\\(%s)({{{|{)' % '|'.join(_commands.keys()))
 
 del _commands
 
-RE_INDENT = compile(' {4}| {0,3}\t')
+RE_INDENT = re_compile(' {4}| {0,3}\t')
 
 
-class Command:
+class Command(object):
     _closed = False
 
     def __init__(self, command, length):
@@ -53,7 +53,7 @@ def _stringify(a):
     return str(a)
 
 
-class Buffer:
+class Buffer(object):
     _peek = None
 
     def __init__(self):
@@ -76,7 +76,7 @@ class Buffer:
         return ''.join(_stringify(a) for a in self._clip)
 
 
-class Clip:
+class Clip(object):
     peek = None
 
     def __init__(self):
@@ -119,7 +119,7 @@ def inline_commands(a):
     return str(buf)
 
 
-class Line:
+class Line(object):
     _string = None
     _monospaced = False
 

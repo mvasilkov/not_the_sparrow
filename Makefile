@@ -1,5 +1,7 @@
 python_version := 3.5
 
+default: test
+
 virtual:
 	pyvenv-$(python_version) virtual
 	# https://github.com/klen/python-mode/issues/406
@@ -10,4 +12,4 @@ test:
 	flake8 not_the_sparrow test
 	py.test --cov not_the_sparrow test
 
-.PHONY: test
+.PHONY: default test

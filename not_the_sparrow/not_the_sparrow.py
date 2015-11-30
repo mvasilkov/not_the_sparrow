@@ -1,7 +1,7 @@
 from io import StringIO
-from re import compile as re_compile
+import re
 
-from .util import escape_html
+from .util import escape_html, save_blocks, load_blocks
 
 OPENING = {}
 CLOSING = {}
@@ -17,11 +17,11 @@ for a, b in _commands.items():
     OPENING[a] = '<%s>' % b
     CLOSING[a] = '</%s>' % b
 
-RE_BEGIN = re_compile(r'\\(%s)({{{|{)' % '|'.join(_commands.keys()))
+RE_BEGIN = re.compile(r'\\(%s)({{{|{)' % '|'.join(_commands.keys()))
 
 del _commands
 
-RE_INDENT = re_compile(' {4}| {0,3}\t')
+RE_INDENT = re.compile(' {4}| {0,3}\t')
 
 
 class Command(object):
@@ -163,3 +163,10 @@ def break_lines(a):
         prose.pop()
 
     return str(prose)
+
+
+def to_html(a):
+    a = break_lines(a)
+    a, b = save_blocks(a)
+    a = inline_commands(a)
+    return load_blocks(a, b)

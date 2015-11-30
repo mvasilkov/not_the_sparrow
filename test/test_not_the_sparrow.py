@@ -3,7 +3,8 @@ from string import whitespace
 from hypothesis import given
 from hypothesis.strategies import text
 
-from not_the_sparrow import inline_commands, break_lines
+from not_the_sparrow import to_html
+from not_the_sparrow.not_the_sparrow import inline_commands, break_lines
 
 
 def test_inline_nop():
@@ -74,3 +75,9 @@ def test_break_indent():
     for x in range(4, 10):
         a = x * ' ' + 'chickens'
         assert break_lines(a) == '<code>%s</code>' % a[4:]
+
+
+def test_to_html_nop():
+    assert to_html('') == ''
+    assert (to_html('nobody here but us chickens') ==
+            'nobody here but us chickens')

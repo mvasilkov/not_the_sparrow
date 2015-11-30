@@ -1,8 +1,5 @@
-from .not_the_sparrow import inline_commands, break_lines
-from .util import escape_html
+from .not_the_sparrow import to_html
 
 __all__ = (
-    'inline_commands',
-    'break_lines',
-    'escape_html',
+    'to_html',
 )

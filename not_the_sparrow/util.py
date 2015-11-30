@@ -1,8 +1,8 @@
 from collections import deque
-from re import compile as re_compile
+import re
 
-RE_SAVE_BLOCK = re_compile('<code>.*?</code>')
-RE_LOAD_BLOCK = re_compile('<\b>')
+RE_SAVE_BLOCK = re.compile('<code>.*?</code>')
+RE_LOAD_BLOCK = re.compile('<\b>')
 
 
 def escape_html(string):

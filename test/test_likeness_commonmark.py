@@ -1,10 +1,10 @@
 from ctypes import CDLL, c_char_p, c_long
-from re import compile as re_compile
+import re
 
 from hypothesis import given, example
 from hypothesis.strategies import text
 
-from not_the_sparrow import break_lines
+from not_the_sparrow.not_the_sparrow import break_lines
 
 cmark = CDLL('libcmark.dylib')
 
@@ -12,8 +12,8 @@ cmark_markdown_to_html = cmark.cmark_markdown_to_html
 cmark_markdown_to_html.argtypes = (c_char_p, c_long, c_long)
 cmark_markdown_to_html.restype = c_char_p
 
-RE_COMMONMARK_P = re_compile('<p>(.*?)</p>')
-RE_COMMONMARK_CODE = re_compile('<pre><code>(.*)')
+RE_COMMONMARK_P = re.compile('<p>(.*?)</p>')
+RE_COMMONMARK_CODE = re.compile('<pre><code>(.*)')
 
 spaces = (' ', '\t')
 

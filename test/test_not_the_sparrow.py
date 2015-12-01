@@ -23,6 +23,7 @@ def test_break_nop():
 def test_nonchalant_hypothesis(string):
     assert isinstance(inline_commands(string), str)
     assert isinstance(break_lines(string), str)
+    assert isinstance(to_html(string), str)
 
 
 def test_inline_basic():
@@ -52,6 +53,21 @@ def test_inline_begin_end():
         assert (inline_commands(
             '\\b%s chickens %s' % b) ==
             '<b> chickens </b>')
+
+
+def test_inline_nested():
+    assert (inline_commands(
+        '\\b{{{\\i{\\i{\\i{ chickens }}}}}}') ==
+        '<b><i><i><i> chickens </i></i></i></b>')
+    assert (inline_commands(
+        '\\i{\\b{{{\\i{\\i{ chickens }}}}}}') ==
+        '<i><b><i><i> chickens </i></i></b></i>')
+    assert (inline_commands(
+        '\\i{\\i{\\b{{{\\i{ chickens }}}}}}') ==
+        '<i><i><b><i> chickens </i></b></i></i>')
+    assert (inline_commands(
+        '\\i{\\i{\\i{\\b{{{ chickens }}}}}}') ==
+        '<i><i><i><b> chickens </b></i></i></i>')
 
 
 def njoin(*args):

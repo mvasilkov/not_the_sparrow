@@ -10,6 +10,9 @@ virtual:
 
 test:
 	flake8 not_the_sparrow test
-	py.test --cov not_the_sparrow test
+	py.test --verbose --cov not_the_sparrow
 
-.PHONY: default test
+lint:
+	pylint not_the_sparrow test/*.py
+
+.PHONY: default test lint

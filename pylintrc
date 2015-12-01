@@ -1,5 +1,5 @@
 [basic]
-good-names=a,b,i,j,k,x
+good-names=a,b,f,fn,i,j,k,x
 
 [messages control]
-disable=missing-docstring,redefined-outer-name
+disable=bad-continuation,missing-docstring,redefined-outer-name

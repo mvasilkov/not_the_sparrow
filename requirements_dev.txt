@@ -1,4 +1,5 @@
 hacking==0.10.2
 hypothesis==1.14.0
+pylint==1.5.0
 pytest==2.8.2
 pytest-cov==2.2.0

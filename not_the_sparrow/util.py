@@ -1,6 +1,12 @@
 from collections import deque
 import re
 
+__all__ = (
+    'escape_html',
+    'save_blocks',
+    'load_blocks',
+)
+
 RE_SAVE_BLOCK = re.compile('<code>.*?</code>')
 RE_LOAD_BLOCK = re.compile('<\b>')
 

@@ -3,6 +3,12 @@ import re
 
 from .util import escape_html, save_blocks, load_blocks
 
+__all__ = (
+    'inline_commands',
+    'break_lines',
+    'to_html',
+)
+
 OPENING = {}
 CLOSING = {}
 
